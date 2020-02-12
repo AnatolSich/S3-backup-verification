@@ -8,20 +8,17 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import org.apache.log4j.Logger;
+import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-
+@CommonsLog
 public class CloudStorageClient {
-
-    private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     private final Properties appProps;
     private final String reportBucketName;

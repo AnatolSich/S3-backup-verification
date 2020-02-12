@@ -1,6 +1,6 @@
 import download.CloudStorageClient;
 import download.MongoDBClient;
-import org.apache.log4j.Logger;
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.log4j.PropertyConfigurator;
 import service.LogService;
 import service.VerificationService;
@@ -8,7 +8,6 @@ import service.VerificationService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
@@ -16,9 +15,9 @@ import java.util.Properties;
 
 @SuppressWarnings("WeakerAccess")
 
+@CommonsLog
 public class Main {
     private static final String PROPS_PATH = "/s3_backup_verification/configs/";
-    private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     public static void main(String[] args) {
 

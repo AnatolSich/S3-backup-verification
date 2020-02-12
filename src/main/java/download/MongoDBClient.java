@@ -3,16 +3,14 @@ package download;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import org.apache.log4j.Logger;
+import lombok.extern.apachecommons.CommonsLog;
 import org.bson.Document;
 
-import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Properties;
 
+@CommonsLog
 public class MongoDBClient {
-
-    private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     private final MongoCollection<Document> bodCollection;
 
