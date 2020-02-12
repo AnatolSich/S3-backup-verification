@@ -1,6 +1,7 @@
 import download.CloudStorageClient;
 import download.MongoDBClient;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import service.LogService;
 import service.VerificationService;
 
@@ -16,8 +17,7 @@ import java.util.Properties;
 @SuppressWarnings("WeakerAccess")
 
 public class Main {
-   // private static final String PROPS_PATH = "/s3_backup_verification/configs/";
-    private static final String PROPS_PATH = "/tmp/configs/";
+    private static final String PROPS_PATH = "/s3_backup_verification/configs/";
     private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     public static void main(String[] args) {
@@ -43,16 +43,24 @@ public class Main {
 
 
     private static Properties loadProperties() throws IOException {
-        File file = new File(PROPS_PATH + "application.properties");
+        File fileApp = new File(PROPS_PATH + "application.properties");
         String appPath;
-        if (file.exists()) {
-            appPath = file.getPath();
+        if (fileApp.exists()) {
+            appPath = fileApp.getPath();
         } else {
             appPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("application.properties")).getPath();
         }
-        System.out.println("appPath = " + appPath);
         Properties appProps = new Properties();
         appProps.load(new FileInputStream(appPath));
+
+        File fileLog = new File(PROPS_PATH + "log4j.properties");
+        String logPath;
+        if (fileLog.exists()) {
+            logPath = fileLog.getPath();
+            Properties logProps = new Properties();
+            logProps.load(new FileInputStream(logPath));
+            PropertyConfigurator.configure(logProps);
+        }
         log.info("(Additional info) AppProps ready");
         return appProps;
     }
