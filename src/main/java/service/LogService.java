@@ -5,8 +5,6 @@ import model.Candle;
 import org.apache.log4j.Logger;
 import utilities.TimestampFileAppender;
 
-import java.util.Properties;
-
 public class LogService {
 
     private static final int  OPEN_SEEK = 3;

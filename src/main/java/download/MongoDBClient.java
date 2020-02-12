@@ -5,14 +5,14 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import org.apache.log4j.Logger;
 import org.bson.Document;
-import utilities.CallerClassGetter;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Properties;
 
 public class MongoDBClient {
 
-    private static final Logger log = Logger.getLogger(CallerClassGetter.getCallerClass());
+    private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
     private final MongoCollection<Document> bodCollection;
 

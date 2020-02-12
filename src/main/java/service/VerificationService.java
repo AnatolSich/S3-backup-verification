@@ -5,19 +5,19 @@ import download.MongoDBClient;
 import model.Candle;
 import org.apache.log4j.Logger;
 import org.bson.Document;
-import utilities.CallerClassGetter;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class VerificationService {
 
-    private static final Logger log = Logger.getLogger(CallerClassGetter.getCallerClass());
+    private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
 
     private final CloudStorageClient cloudStorageClient;
