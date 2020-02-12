@@ -1,6 +1,5 @@
 package service;
 
-import lombok.RequiredArgsConstructor;
 import model.Candle;
 import org.apache.log4j.Logger;
 import utilities.TimestampFileAppender;

@@ -20,6 +20,7 @@ plugins {
 group 'upstox-download-golden-copy-NSE'
 version '1.0-SNAPSHOT'
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.11
 
 repositories {

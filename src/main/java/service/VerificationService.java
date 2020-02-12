@@ -62,7 +62,7 @@ public class VerificationService {
                 }
                 if (!verifyOneCandle(candle, documentOpt.get())) {
                     log.error("File: " + fileName + " CORRUPTED, line: " + count);
-                    corruptedCase(fileName, candle, documentOpt.get(), count);
+                    corruptedCase(candle, documentOpt.get());
                     flag = false;
                     break;
                 }
@@ -108,7 +108,7 @@ public class VerificationService {
 
     }
 
-    private void corruptedCase(String fileName, Candle candle, Document document, long count) {
+    private void corruptedCase(Candle candle, Document document) {
         double lower_circuit = document.getDouble("lower_circuit");
         double upper_circuit = document.getDouble("upper_circuit");
         double open = candle.getOpen();
