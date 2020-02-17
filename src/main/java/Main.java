@@ -8,8 +8,8 @@ import service.VerificationService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Properties;
 
 
@@ -17,6 +17,7 @@ import java.util.Properties;
 
 @CommonsLog
 public class Main {
+
     private static final String PROPS_PATH = "/s3_backup_verification/configs/";
 
     public static void main(String[] args) {
@@ -30,10 +31,12 @@ public class Main {
 
             VerificationService verificationService = new VerificationService(mongoDBClient, cloudStorageClient, logService);
 
-            log.info("IS COMPLETED: " + cloudStorageClient.isCompletedVerification());
-            verificationService.verify();
+            if (cloudStorageClient.isCompletedVerification()) {
+                verificationService.verify();
+            }
             //upload report to AWS
             cloudStorageClient.uploadReportLogToAws(logService.getLogFileName());
+
         } catch (IOException e) {
             log.error(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
@@ -43,23 +46,26 @@ public class Main {
 
     private static Properties loadProperties() throws IOException {
         File fileApp = new File(PROPS_PATH + "application.properties");
-        String appPath;
+        InputStream appPath;
         if (fileApp.exists()) {
-            appPath = fileApp.getPath();
+            appPath = new FileInputStream(fileApp.getPath());
         } else {
-            appPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("application.properties")).getPath();
+            appPath = Main.class.getResourceAsStream("/application.properties");
         }
+        log.info("appPath = " + appPath);
         Properties appProps = new Properties();
-        appProps.load(new FileInputStream(appPath));
+        appProps.load(appPath);
 
         File fileLog = new File(PROPS_PATH + "log4j.properties");
-        String logPath;
+        InputStream logPath;
         if (fileLog.exists()) {
-            logPath = fileLog.getPath();
-            Properties logProps = new Properties();
-            logProps.load(new FileInputStream(logPath));
-            PropertyConfigurator.configure(logProps);
+            logPath = new FileInputStream(fileLog.getPath());
+        } else {
+            logPath = Main.class.getResourceAsStream("/log4j.properties");
         }
+        Properties logProps = new Properties();
+        logProps.load(logPath);
+        PropertyConfigurator.configure(logProps);
         log.info("(Additional info) AppProps ready");
         return appProps;
     }

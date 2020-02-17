@@ -2,12 +2,14 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 buildscript {
     repositories {
+        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
         classpath "com.bmuschko:gradle-docker-plugin:5.2.0"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
 
@@ -15,6 +17,18 @@ plugins {
     id 'java'
     id 'application'
     id "com.bmuschko.docker-remote-api" version "5.2.0"
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Main'
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 group 'upstox-aws-backup-verification'
@@ -51,6 +65,7 @@ apply plugin: 'com.bmuschko.docker-remote-api'
 application {
     mainClassName = 'Main'
 }
+
 
 task buildImage(type: DockerBuildImage, dependsOn: jar) {
     //noinspection GrFinalVariableAccess,GroovyAssignabilityCheck

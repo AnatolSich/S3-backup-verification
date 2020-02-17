@@ -28,6 +28,9 @@ public class VerificationService {
     }
 
     public void verify() throws IOException {
+        if (bodCollection == null) {
+            return;
+        }
         List<String> files = cloudStorageClient.getVerificationObjects();
         for (String fileName : files) {
             verifyOneFile(fileName);

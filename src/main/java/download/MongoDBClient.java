@@ -19,12 +19,16 @@ public class MongoDBClient {
         this.bodCollection = new MongoClient(
                 appProps.getProperty("upstox.verification.mongodb.host"),
                 Integer.parseInt(appProps.getProperty("upstox.verification.mongodb.port")))
-                    .getDatabase(appProps.getProperty("upstox.verification.mongodb.database"))
-                    .getCollection("entire_bod");
+                .getDatabase(appProps.getProperty("upstox.verification.mongodb.database"))
+                .getCollection("entire_bod");
     }
 
     public ArrayList<Document> getBodCollection() {
         ArrayList<Document> list = bodCollection.find().into(new ArrayList<>());
+        if (list.isEmpty()) {
+            log.info("(Additional info) Bod collection is empty");
+            return null;
+        }
         log.info("(Additional info) Bod collection is downloaded");
         return list;
     }

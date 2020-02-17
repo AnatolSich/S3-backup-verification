@@ -54,7 +54,9 @@ public class CloudStorageClient {
         if (verificationFolderName != null) {
             key = verificationFolderName + "/" + key;
         }
-        return checkBucketAndObject(verificationBucketName, key);
+        boolean result = checkBucketAndObject(verificationBucketName, key);
+        log.info("IS COMPLETED: " + result);
+        return result;
     }
 
     public List<String> getVerificationObjects() {
